@@ -1,0 +1,28 @@
+{
+  "name": "alpacadao",
+  "version": "1.0.0",
+  "description": "alpacadao with revolve games",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx hardhat test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meanking/AlpacaDAO.git"
+  },
+  "keywords": [
+    "meanking",
+    "alpaca",
+    "dao",
+    "revolvegames"
+  ],
+  "author": "Meanking",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meanking/AlpacaDAO/issues"
+  },
+  "homepage": "https://github.com/meanking/AlpacaDAO#readme",
+  "devDependencies": {
+    "hardhat": "^2.11.2"
+  }
+}
