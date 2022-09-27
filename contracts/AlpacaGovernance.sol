@@ -161,6 +161,18 @@ contract AlpacaGovernance is Ownable {
     vote.votingPower = uint248(votingPower);
   }
 
+  function setGovernanceStrategy(address governanceStrategy) public onlyOwner {
+    _governanceStrategy = governanceStrategy;
+  }
+
+  function setPropositionPowerThreshold(uint256 propositionPowerThreshold) public onlyOwner {
+    _propositionPowerThreshold = propositionPowerThreshold;
+  }
+
+  function setVotingDelay(uint256 votingDelay) public onlyOwner {
+    _votingDelay = votingDelay;
+  }
+
   function state(uint256 proposalId) public view returns (ProposalState) {
     require(_proposalsCount >= proposalId, 'INVALID_PROPOSAL_ID');
     Proposal storage proposal = _proposals[proposalId];
