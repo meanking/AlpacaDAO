@@ -19,7 +19,7 @@ export enum AavePools {
 }
 
 export enum eContractid {
-  AaveGovernanceV2 = 'AaveGovernanceV2',
+  AlpacaGovernance = 'AlpacaGovernance',
 }
 
 export type tEthereumAddress = string;
