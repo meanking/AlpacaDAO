@@ -25,7 +25,7 @@ contract AlpacaGovernance is Ownable {
     address payload;
     uint256 startBlock;
     uint256 endBlock;
-    uint256 executionBlock;
+    uint256 executionTime;
     uint256 forVotes;
     uint256 againstVotes;
     bool executed;
@@ -47,7 +47,7 @@ contract AlpacaGovernance is Ownable {
     'EIP712Domain(string name, uint256 chainId, address verifyingContract)'
   );
   bytes32 public constant VOTE_EMITTED_TYPEHASH = keccak256('VoteEmitted(uint256 id, bool option)');
-  string public constant NAME = 'Aave Governance v2';
+  string public constant NAME = 'Alpaca Governance';
 
   constructor(address governanceStrategy, uint256 votingDelay) {
     _setGovernanceStrategy(governanceStrategy);
@@ -69,7 +69,7 @@ contract AlpacaGovernance is Ownable {
     require(isContract(payload), 'INVALID_NON_CONTRACT_PAYLOAD');
 
     uint256 startBlock = add256(block.number, _votingDelay);
-    uint256 endBlock = add256(startBlock, IExecutorWithTimelock(executor).getVotingDuration());
+    uint256 endBlock = add256(startBlock, IExecutorWithTimelock(executor).VOTING_DURATION());
 
     uint256 previousProposalsCount = _proposalsCount;
 
@@ -103,31 +103,34 @@ contract AlpacaGovernance is Ownable {
       'CREATOR_ABOVE_THRESHOLD'
     );
     proposal.canceled = true;
-    proposal.executor.cancelTransaction(proposal.payload, proposal.executionBlock);
+    proposal.executor.cancelTransaction(proposal.payload, proposal.executionTime);
   }
 
   function queue(uint256 proposalId) public {
     require(getProposalState(proposalId) == ProposalState.Succeeded, 'INVALID_STATE_FOR_QUEUE');
     Proposal storage proposal = _proposals[proposalId];
-    uint256 executionBlock = add256(block.timestamp, proposal.executor.delay());
-    _queueOrRevert(proposal.executor, proposal.payload, executionBlock);
-    proposal.executionBlock = executionBlock;
+    uint256 executionTime = add256(block.timestamp, proposal.executor.getDelay());
+    _queueOrRevert(proposal.executor, proposal.payload, executionTime);
+    proposal.executionTime = executionTime;
   }
 
   function _queueOrRevert(
     IExecutorWithTimelock executor,
     address payload,
-    uint256 executionBlock
+    uint256 executionTime
   ) internal {
-    require(!executor.queuedTransactions(keccak256(abi.encode(payload, executionBlock))), 'DUPLICATED_PAYLOAD');
-    executor.queueTransaction(payload, executionBlock);
+    require(
+      !executor.isPayloadQueued(keccak256(abi.encode(payload, executionTime))),
+      'DUPLICATED_PAYLOAD'
+    );
+    executor.queueTransaction(payload, executionTime);
   }
 
   function execute(uint256 proposalId) public payable {
     require(getProposalState(proposalId) == ProposalState.Queued, 'ONLY_QUEUED_PROPOSALS');
     Proposal storage proposal = _proposals[proposalId];
     proposal.executed = true;
-    proposal.executor.executeTransaction(proposal.payload, proposal.executionBlock);
+    proposal.executor.executeTransaction(proposal.payload, proposal.executionTime);
   }
 
   function submitVote(uint256 proposalId, bool support) public {
@@ -196,16 +199,16 @@ contract AlpacaGovernance is Ownable {
     } else if (block.number <= proposal.endBlock) {
       return ProposalState.Active;
     } else if (
-      proposal.forVotes <= add256(proposal.againstVotes, proposal.executor.getVoteDifferential()) ||
+      proposal.forVotes <= proposal.executor.getForVotesNeededWithDifferential(proposal.againstVotes) ||
       proposal.forVotes < proposal.executor.getQuorum()
     ) {
       return ProposalState.Failed;
-    } else if (proposal.executionBlock == 0) {
+    } else if (proposal.executionTime == 0) {
       return ProposalState.Succeeded;
     } else if (proposal.executed) {
       return ProposalState.Executed;
     } else if (
-      block.timestamp >= add256(proposal.executionBlock, proposal.executor.GRACE_PERIOD())
+      block.timestamp >= add256(proposal.executionTime, proposal.executor.GRACE_PERIOD())
     ) {
       return ProposalState.Expired;
     } else {

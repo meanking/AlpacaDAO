@@ -13,7 +13,7 @@ export enum EthereumNetworkNames {
   main = 'main',
 }
 
-export enum AavePools {
+export enum AlpacaPools {
   proto = 'proto',
   secondary = 'secondary',
 }
