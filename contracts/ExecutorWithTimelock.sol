@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 pragma experimental ABIEncoderV2;
 
-import {IExecutorWithTimelock} from './Interfaces/IExecutorWithTimelock.sol';
+import {IExecutorWithTimelock} from './interfaces/IExecutorWithTimelock.sol';
 
 // TODO add events
 contract ExecutorWithTimelock is IExecutorWithTimelock {
