@@ -2,14 +2,16 @@
 pragma solidity 0.8.17;
 pragma experimental ABIEncoderV2;
 
+import {IAlpacaGovernance} from './IAlpacaGovernance.sol';
+
 interface IExecutorWithTimelock {
-  function getQuorum() external view returns (uint256);
+  // function getQuorum() external view returns (uint256);
 
-  function getForVotesNeededForQuorum() external view returns (uint256);
+  // function getForVotesNeededForQuorum() external view returns (uint256);
 
-  function getVotesDifferential() external view returns (uint256);
+  // function getVotesDifferential() external view returns (uint256);
 
-  function getForVotesNeededWithDifferential(uint256 against) external view returns (uint256);
+  // function getForVotesNeededWithDifferential(uint256 against) external view returns (uint256);
 
   function getAdmin() external view returns (address);
 
@@ -19,11 +21,12 @@ interface IExecutorWithTimelock {
 
   function isActionQueued(bytes32 actionHash) external view returns (bool);
 
+  function isProposalOverGracePeriod(IAlpacaGovernance governance, uint256 proposalId)
+    external
+    view
+    returns (bool);
+
   function GRACE_PERIOD() external view returns (uint256);
-
-  function VOTING_DURATION() external view returns (uint256);
-
-  function VOTE_DIFFERENTIAL() external view returns (uint256);
 
   function MINIMUM_DELAY() external view returns (uint256);
 

@@ -80,6 +80,10 @@ interface IAlpacaGovernance {
 
   event VotingDelayChanged(uint256 newVotingDelay, address indexed initiatorChange);
 
+  event ExecutorWhitelisted(address executor);
+
+  event ExecutorBlacklisted(address executor);
+
   function create(
     IExecutorWithTimelock executor,
     address[] memory targets,
@@ -108,11 +112,17 @@ interface IAlpacaGovernance {
 
   function setGovernanceStrategy(address governanceStrategy) external;
 
+  function whitelistExecutors(address[] memory executors) external;
+
+  function blacklistExecutors(address[] memory executors) external;
+
   function setVotingDelay(uint256 votingDelay) external;
 
   function __abdicate() external;
 
   function getGovernanceStrategy() external view returns (address);
+
+  function isExecutorWhitelisted(address executor) external view returns (bool);
 
   function getVotingDelay() external view returns (uint256);
 
