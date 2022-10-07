@@ -2,10 +2,10 @@
 pragma solidity 0.8.17;
 pragma abicoder v2;
 
-import {IAlpacaGovernance} from './interfaces/IAlpacaGovernance.sol';
-import {IGovernanceStrategy} from './interfaces/IGovernanceStrategy.sol';
-import {IVoteValidator} from './interfaces/IVoteValidator.sol';
-import {add256, sub256, mul256, div256} from './Helpers.sol';
+import {IAlpacaGovernance} from '../interfaces/IAlpacaGovernance.sol';
+import {IGovernanceStrategy} from '../interfaces/IGovernanceStrategy.sol';
+import {IVoteValidator} from '../interfaces/IVoteValidator.sol';
+import {add256, sub256, mul256, div256} from '../misc/Helpers.sol';
 
 contract VoteValidator is IVoteValidator {
   uint256 public constant override VOTING_DURATION = 86400; // Blocks in 14 days

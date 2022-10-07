@@ -2,13 +2,13 @@
 pragma solidity 0.8.17;
 pragma abicoder v2;
 
-import {Ownable} from './Ownable.sol';
-import {IVotingStrategy} from './interfaces/IVotingStrategy.sol';
-import {IExecutorWithTimelock} from './interfaces/IExecutorWithTimelock.sol';
-import {IVoteValidator} from './interfaces/IVoteValidator.sol';
-import {IGovernanceStrategy} from './interfaces/IGovernanceStrategy.sol';
-import {IAlpacaGovernance} from './interfaces/IAlpacaGovernance.sol';
-import {isContract, add256, sub256, getChainId} from './Helpers.sol';
+import {Ownable} from '../dependencies/open-zeppelin/Ownable.sol';
+import {IVotingStrategy} from '../interfaces/IVotingStrategy.sol';
+import {IExecutorWithTimelock} from '../interfaces/IExecutorWithTimelock.sol';
+import {IVoteValidator} from '../interfaces/IVoteValidator.sol';
+import {IGovernanceStrategy} from '../interfaces/IGovernanceStrategy.sol';
+import {IAlpacaGovernance} from '../interfaces/IAlpacaGovernance.sol';
+import {isContract, add256, sub256, getChainId} from '../misc/Helpers.sol';
 
 // TODO: split the storage to another contract on the inheritance's chain?
 contract AlpacaGovernance is Ownable, IAlpacaGovernance {
