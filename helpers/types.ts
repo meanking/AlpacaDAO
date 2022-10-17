@@ -20,6 +20,12 @@ export enum AlpacaPools {
 
 export enum eContractid {
   AlpacaGovernance = 'AlpacaGovernance',
+  GovernanceStrategy = 'GovernanceStrategy',
+  Executor = 'Executor',
+  InitializableAdminUpgradeabilityProxy = 'InitializableAdminUpgradeabilityProxy',
+  AlpacaTokenMock = 'AlpacaTokenMock',
+  AlpacaTokenMockImpl = 'AlpacaTokenMockImpl',
+  AlpacaToken = 'AlpacaToken',
 }
 
 export type tEthereumAddress = string;
