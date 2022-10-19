@@ -104,9 +104,9 @@ export const deployMockedAaveV2 = async (minter: tEthereumAddress, verify?: bool
     verify,
     eContractid.AlpacaTokenMockImpl
   );
-  const encodedPayload = new Interface([
-    'function initialize(address minter)',
-  ]).encodeFunctionData('initialize', [minter]);
+  // const encodedPayload = new Interface([
+  //   'function initialize(address minter)',
+  // ]).encodeFunctionData('initialize', [minter]);
   // await waitForTx(
   //   await proxy.functions['initialize(address,address,bytes)'](
   //     implementationV1.address,
